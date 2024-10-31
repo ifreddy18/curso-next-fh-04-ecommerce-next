@@ -1,17 +1,19 @@
 export const revalidate = 30 // 60 segundos
 
+import { redirect } from 'next/navigation'
+import { Gender } from '@prisma/client'
+
 import { getPaginatedProductsWithImages } from '@/actions'
 import { Title, ProductGrid, Pagination } from '@/components'
-import type { Category } from '@/interfaces'
 
 // import { initialData } from '@/seed/seed'
 // const seedProducts = initialData.products
 
 const labels: Record<string, string> = {
-	men: 'para hombres',
-	women: 'para mujeres',
-	kid: 'para niños',
-	unisex: 'para todos',
+	men: 'for men',
+	women: 'for women',
+	kid: 'for kids',
+	unisex: 'for everyone',
 }
 
 interface Props {
@@ -31,13 +33,17 @@ export default async function ({ params, searchParams }: Props) {
 	const { products, currentPage, totalPages } =
 		await getPaginatedProductsWithImages({
 			page,
-			gender: gender as Category,
+			gender: gender as Gender,
 		})
 
 	//? Go to page -> Not Found
 	// if (gender === 'kids') notFound()
 
 	// const products = seedProducts.filter((product) => product.gender === gender)
+
+	if (products.length === 0) {
+		redirect(`/gender/${gender}`)
+	}
 
 	return (
 		<>

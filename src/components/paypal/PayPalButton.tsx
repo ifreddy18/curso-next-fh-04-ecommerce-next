@@ -38,9 +38,11 @@ export const PayPalButton = ({ orderId, amount }: Props) => {
 					invoice_id: orderId,
 					amount: {
 						value: `${rountedAmount}`,
+						currency_code: '$',
 					},
 				},
 			],
+			intent: 'CAPTURE',
 		})
 
 		const { ok } = await setTransactionId(orderId, transactionId)
