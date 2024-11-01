@@ -1,7 +1,7 @@
 export const revalidate = 0
 
+import { getPaginatedOrders } from '@/actions/order/get-paginated-orders'
 // https://tailwindcomponents.com/component/hoverable-table
-import { getPaginatedOrders } from '@/actions'
 import { Pagination, Title } from '@/components'
 
 import Link from 'next/link'
@@ -17,7 +17,7 @@ export default async function OrdersPage() {
 
 	return (
 		<>
-			<Title title="All the orders" />
+			<Title title="Todas las orders" />
 
 			<div className="mb-10">
 				<table className="min-w-full">
@@ -33,19 +33,19 @@ export default async function OrdersPage() {
 								scope="col"
 								className="px-6 py-4 text-left text-sm font-medium text-gray-900"
 							>
-								Fullname
+								Nombre completo
 							</th>
 							<th
 								scope="col"
 								className="px-6 py-4 text-left text-sm font-medium text-gray-900"
 							>
-								State
+								Estado
 							</th>
 							<th
 								scope="col"
 								className="px-6 py-4 text-left text-sm font-medium text-gray-900"
 							>
-								Options
+								Opciones
 							</th>
 						</tr>
 					</thead>
@@ -65,12 +65,12 @@ export default async function OrdersPage() {
 									{order.isPaid ? (
 										<>
 											<IoCardOutline className="text-green-800" />
-											<span className="mx-2 text-green-800">Paid</span>
+											<span className="mx-2 text-green-800">Pagada</span>
 										</>
 									) : (
 										<>
 											<IoCardOutline className="text-red-800" />
-											<span className="mx-2 text-red-800">Pending</span>
+											<span className="mx-2 text-red-800">No Pagada</span>
 										</>
 									)}
 								</td>
@@ -79,7 +79,7 @@ export default async function OrdersPage() {
 										href={`/orders/${order.id}`}
 										className="hover:underline"
 									>
-										See order
+										Ver orden
 									</Link>
 								</td>
 							</tr>

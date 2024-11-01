@@ -8,7 +8,8 @@ import clsx from 'clsx'
 
 import type { Address, Country } from '@/interfaces'
 import { useAddressStore } from '@/store'
-import { deleteUserAddress, setUserAddress } from '@/actions'
+import { setUserAddress } from '@/actions/address/set-user-address'
+import { deleteUserAddress } from '@/actions/address/delete-user-address'
 
 type FormInputs = {
 	firstName: string
@@ -20,18 +21,6 @@ type FormInputs = {
 	country: string
 	phone: string
 	rememberAddress: boolean
-}
-
-const FormInputsKeys = {
-	firstName: 'firstName',
-	lastName: 'lastName',
-	address: 'address',
-	address2: 'address2',
-	postalCode: 'postalCode',
-	city: 'city',
-	country: 'country',
-	phone: 'phone',
-	rememberAddress: 'rememberAddress',
 }
 
 interface Props {
@@ -60,7 +49,6 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
 	const setAddress = useAddressStore((state) => state.setAddress)
 	const address = useAddressStore((state) => state.address)
 
-	//? Resetear el formulario con valores por defecto
 	useEffect(() => {
 		if (address.firstName) {
 			reset(address)
@@ -69,7 +57,8 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
 
 	const onSubmit = async (data: FormInputs) => {
 		const { rememberAddress, ...restAddress } = data
-		setAddress(data)
+
+		setAddress(restAddress)
 
 		if (rememberAddress) {
 			await setUserAddress(restAddress, session!.user.id)

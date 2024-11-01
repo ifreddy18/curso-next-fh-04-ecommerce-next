@@ -3,8 +3,8 @@ export const revalidate = 30 // 60 segundos
 import { redirect } from 'next/navigation'
 import { Gender } from '@prisma/client'
 
-import { getPaginatedProductsWithImages } from '@/actions'
 import { Title, ProductGrid, Pagination } from '@/components'
+import { getPaginatedProductsWithImages } from '@/actions/product/product-pagination'
 
 // import { initialData } from '@/seed/seed'
 // const seedProducts = initialData.products

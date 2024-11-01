@@ -1,11 +1,8 @@
-import { redirect } from 'next/navigation'
-
-import { Product } from '@prisma/client'
-
-import { getCategories, getProductBySlug } from '@/actions'
 import { Title } from '@/components'
-
+import { redirect } from 'next/navigation'
 import { ProductForm } from './ui/ProductForm'
+import { getProductBySlug } from '@/actions/product/get-product-by-slug'
+import { getCategories } from '@/actions/category/get-categories'
 
 interface Props {
 	params: {
@@ -26,16 +23,13 @@ export default async function ProductPage({ params }: Props) {
 		redirect('/admin/products')
 	}
 
-	const title = slug === 'new' ? 'New product' : 'Edit product'
+	const title = slug === 'new' ? 'Nuevo producto' : 'Editar producto'
 
 	return (
 		<>
 			<Title title={title} />
 
-			<ProductForm
-				product={product ?? ({} as Partial<Product>)}
-				categories={categories}
-			/>
+			<ProductForm product={product ?? {}} categories={categories} />
 		</>
 	)
 }

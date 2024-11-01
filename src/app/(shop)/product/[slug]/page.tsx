@@ -1,19 +1,18 @@
 export const revalidate = 604800 //7 días
-
 import { Metadata, ResolvingMetadata } from 'next'
 
 import { notFound } from 'next/navigation'
 
-// import { initialData } from '@/seed/seed'
 import { titleFont } from '@/config/fonts'
 import {
-	ProductSlideshow,
 	ProductMobileSlideshow,
+	ProductSlideshow,
+	QuantitySelector,
+	SizeSelector,
 	StockLabel,
 } from '@/components'
-import { getProductBySlug } from '@/actions'
-
 import { AddToCart } from './ui/AddToCart'
+import { getProductBySlug } from '@/actions/product/get-product-by-slug'
 
 interface Props {
 	params: {
@@ -35,10 +34,10 @@ export async function generateMetadata(
 	// const previousImages = (await parent).openGraph?.images || []
 
 	return {
-		title: product?.title ?? 'Product not found',
+		title: product?.title ?? 'Producto no encontrado',
 		description: product?.description ?? '',
 		openGraph: {
-			title: product?.title ?? 'Product not found',
+			title: product?.title ?? 'Producto no encontrado',
 			description: product?.description ?? '',
 			// images: [], // https://misitioweb.com/products/image.png
 			images: [`/products/${product?.images[1]}`],
@@ -46,12 +45,14 @@ export async function generateMetadata(
 	}
 }
 
-export default async function ProductSlugPage({ params }: Props) {
+export default async function ProductBySlugPage({ params }: Props) {
 	const { slug } = params
-	// const product = initialData.products.find((product) => product.slug === slug)
 	const product = await getProductBySlug(slug)
+	console.log(product)
 
-	if (!product) notFound()
+	if (!product) {
+		notFound()
+	}
 
 	return (
 		<div className="mb-20 mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -73,18 +74,19 @@ export default async function ProductSlugPage({ params }: Props) {
 			</div>
 
 			{/* Detalles */}
-			<div className="col-span-1">
-				<StockLabel slug={slug} />
+			<div className="col-span-1 px-5">
+				<StockLabel slug={product.slug} />
 
 				<h1 className={` ${titleFont.className} text-xl font-bold antialiased`}>
 					{product.title}
 				</h1>
-				<p className="mb-5 text-lg">{product.price}</p>
+
+				<p className="mb-5 text-lg">${product.price}</p>
 
 				<AddToCart product={product} />
 
 				{/* Descripción */}
-				<h3 className="text-sm font-bold">Description</h3>
+				<h3 className="text-sm font-bold">Descripción</h3>
 				<p className="font-light">{product.description}</p>
 			</div>
 		</div>

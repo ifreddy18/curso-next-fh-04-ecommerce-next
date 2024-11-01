@@ -4,9 +4,9 @@ import { useEffect } from 'react'
 import Link from 'next/link'
 import { useFormState, useFormStatus } from 'react-dom'
 
-import { authenticate } from '@/actions'
 import { IoInformationOutline } from 'react-icons/io5'
 import clsx from 'clsx'
+import { authenticate } from '@/actions/auth/login'
 // import { useRouter } from 'next/navigation';
 
 export const LoginForm = () => {
@@ -19,7 +19,7 @@ export const LoginForm = () => {
 		if (state === 'Success') {
 			// redireccionar
 			// router.replace('/');
-			window.location.replace('/')
+			// window.location.replace('/')
 		}
 	}, [state])
 

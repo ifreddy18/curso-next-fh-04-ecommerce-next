@@ -17,7 +17,6 @@ import {
 } from 'react-icons/io5'
 
 import { useUIStore } from '@/store'
-import { logout as logoutAction } from '@/actions'
 
 export const Sidebar = () => {
 	const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen)
@@ -162,4 +161,7 @@ export const Sidebar = () => {
 			</nav>
 		</div>
 	)
+}
+function logoutAction() {
+	throw new Error('Function not implemented.')
 }

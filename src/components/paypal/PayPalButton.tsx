@@ -7,7 +7,8 @@ import {
 	OnApproveActions,
 	OnApproveData,
 } from '@paypal/paypal-js'
-import { paypalCheckPayment, setTransactionId } from '@/actions'
+import { paypalCheckPayment } from '@/actions/payments/paypal-check-payment'
+import { setTransactionId } from '@/actions/payments/set-transaction-id'
 
 interface Props {
 	orderId: string

@@ -4,10 +4,9 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import clsx from 'clsx'
 
-import type { Address, Size } from '@/interfaces'
-import { placeOrder } from '@/actions'
 import { useAddressStore, useCartStore } from '@/store'
 import { currencyFormat } from '@/utils'
+import { placeOrder } from '@/actions/order/place-order'
 
 export const PlaceOrder = () => {
 	const router = useRouter()
@@ -38,18 +37,7 @@ export const PlaceOrder = () => {
 		}))
 
 		//! Server Action
-		const placeOrderAddress: Address = {
-			firstName: address.firstName,
-			lastName: address.lastName,
-			address: address.address,
-			address2: address.address2,
-			postalCode: address.postalCode,
-			city: address.city,
-			country: address.country,
-			phone: address.phone,
-		}
-		console.log({ placeOrderAddress })
-		const resp = await placeOrder(productsToOrder, placeOrderAddress)
+		const resp = await placeOrder(productsToOrder, address)
 		if (!resp.ok) {
 			setIsPlacingOrder(false)
 			setErrorMessage(resp.message)
@@ -62,12 +50,12 @@ export const PlaceOrder = () => {
 	}
 
 	if (!loaded) {
-		return <p>Loading...</p>
+		return <p>Cargando...</p>
 	}
 
 	return (
 		<div className="rounded-xl bg-white p-7 shadow-xl">
-			<h2 className="mb-2 text-2xl">Delivery address</h2>
+			<h2 className="mb-2 text-2xl">Dirección de entrega</h2>
 			<div className="mb-10">
 				<p className="text-xl">
 					{address.firstName} {address.lastName}
@@ -84,18 +72,18 @@ export const PlaceOrder = () => {
 			{/* Divider */}
 			<div className="mb-10 h-0.5 w-full rounded bg-gray-200" />
 
-			<h2 className="mb-2 text-2xl">Order summary</h2>
+			<h2 className="mb-2 text-2xl">Resumen de orden</h2>
 
 			<div className="grid grid-cols-2">
-				<span>Products count</span>
+				<span>No. Productos</span>
 				<span className="text-right">
-					{itemsInCart === 1 ? '1 item' : `${itemsInCart} items`}
+					{itemsInCart === 1 ? '1 artículo' : `${itemsInCart} artículos`}
 				</span>
 
 				<span>Subtotal</span>
 				<span className="text-right">{currencyFormat(subTotal)}</span>
 
-				<span>Taxes (15%)</span>
+				<span>Impuestos (15%)</span>
 				<span className="text-right">{currencyFormat(tax)}</span>
 
 				<span className="mt-5 text-2xl">Total:</span>
@@ -108,13 +96,13 @@ export const PlaceOrder = () => {
 				<p className="mb-5">
 					{/* Disclaimer */}
 					<span className="text-xs">
-						By clicking in &quot;Place order&quot;, you accept our{' '}
+						Al hacer clic en &quot;Colocar orden&quot;, aceptas nuestros{' '}
 						<a href="#" className="underline">
-							terms and conditions
+							términos y condiciones
 						</a>{' '}
-						and{' '}
+						y{' '}
 						<a href="#" className="underline">
-							privacy policy
+							política de privacidad
 						</a>
 					</span>
 				</p>
@@ -129,7 +117,7 @@ export const PlaceOrder = () => {
 						'btn-disabled': isPlacingOrder,
 					})}
 				>
-					Place order
+					Colocar orden
 				</button>
 			</div>
 		</div>

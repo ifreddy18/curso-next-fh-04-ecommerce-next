@@ -1,16 +1,17 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-import clsx from 'clsx'
-import { useRouter } from 'next/navigation'
-
 import {
 	Category,
 	Product,
 	ProductImage as ProductWithImage,
 } from '@/interfaces'
-import { createUpdateProduct, deleteProductImage } from '@/actions'
+import Image from 'next/image'
+import clsx from 'clsx'
+import { useRouter } from 'next/navigation'
 import { ProductImage } from '@/components'
+import { createUpdateProduct } from '@/actions/product/create-update-product'
+import { deleteProductImage } from '@/actions/product/delete-product-image'
 
 interface Props {
 	product: Partial<Product> & { ProductImage?: ProductWithImage[] }
@@ -53,15 +54,12 @@ export const ProductForm = ({ product, categories }: Props) => {
 		},
 	})
 
-	// Se deja para que se vuelva a renderizar cuando se actualice "sizes"
 	watch('sizes')
 
 	const onSizeChanged = (size: string) => {
 		const sizes = new Set(getValues('sizes'))
-
-		if (sizes.has(size)) sizes.delete(size)
-		else sizes.add(size)
-
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		sizes.has(size) ? sizes.delete(size) : sizes.add(size)
 		setValue('sizes', Array.from(sizes))
 	}
 
@@ -108,7 +106,7 @@ export const ProductForm = ({ product, categories }: Props) => {
 			{/* Textos */}
 			<div className="w-full">
 				<div className="mb-2 flex flex-col">
-					<span>Title</span>
+					<span>Título</span>
 					<input
 						type="text"
 						className="rounded-md border bg-gray-200 p-2"
@@ -126,7 +124,7 @@ export const ProductForm = ({ product, categories }: Props) => {
 				</div>
 
 				<div className="mb-2 flex flex-col">
-					<span>Description</span>
+					<span>Descripción</span>
 					<textarea
 						rows={5}
 						className="rounded-md border bg-gray-200 p-2"
@@ -158,7 +156,7 @@ export const ProductForm = ({ product, categories }: Props) => {
 						className="rounded-md border bg-gray-200 p-2"
 						{...register('gender', { required: true })}
 					>
-						<option value="">[Select]</option>
+						<option value="">[Seleccione]</option>
 						<option value="men">Men</option>
 						<option value="women">Women</option>
 						<option value="kid">Kid</option>
@@ -167,12 +165,12 @@ export const ProductForm = ({ product, categories }: Props) => {
 				</div>
 
 				<div className="mb-2 flex flex-col">
-					<span>Category</span>
+					<span>Categoria</span>
 					<select
 						className="rounded-md border bg-gray-200 p-2"
 						{...register('categoryId', { required: true })}
 					>
-						<option value="">[Select]</option>
+						<option value="">[Seleccione]</option>
 						{categories.map((category) => (
 							<option key={category.id} value={category.id}>
 								{category.name}
@@ -181,13 +179,13 @@ export const ProductForm = ({ product, categories }: Props) => {
 					</select>
 				</div>
 
-				<button className="btn-primary w-full">Save</button>
+				<button className="btn-primary w-full">Guardar</button>
 			</div>
 
 			{/* Selector de tallas y fotos */}
 			<div className="w-full">
 				<div className="mb-2 flex flex-col">
-					<span>Stock</span>
+					<span>Inventario</span>
 					<input
 						type="number"
 						className="rounded-md border bg-gray-200 p-2"
@@ -197,7 +195,7 @@ export const ProductForm = ({ product, categories }: Props) => {
 
 				{/* As checkboxes */}
 				<div className="flex flex-col">
-					<span>Sizes</span>
+					<span>Tallas</span>
 					<div className="flex flex-wrap">
 						{sizes.map((size) => (
 							// bg-blue-500 text-white <--- si está seleccionado
@@ -217,7 +215,7 @@ export const ProductForm = ({ product, categories }: Props) => {
 					</div>
 
 					<div className="mb-2 flex flex-col">
-						<span>Photos</span>
+						<span>Fotos</span>
 						<input
 							type="file"
 							{...register('images')}
@@ -243,7 +241,7 @@ export const ProductForm = ({ product, categories }: Props) => {
 									onClick={() => deleteProductImage(image.id, image.url)}
 									className="btn-danger w-full rounded-b-xl"
 								>
-									Delete
+									Eliminar
 								</button>
 							</div>
 						))}

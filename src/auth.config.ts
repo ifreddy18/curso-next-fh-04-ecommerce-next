@@ -1,23 +1,17 @@
-import type { NextAuthConfig } from 'next-auth'
+import NextAuth, { type NextAuthConfig } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
-
 import bcryptjs from 'bcryptjs'
 import { z } from 'zod'
 
 import prisma from './lib/prisma'
-import NextAuth from 'next-auth'
-
-export const ProvidersKeys = {
-	credentials: 'credentials',
-}
 
 export const authConfig: NextAuthConfig = {
 	pages: {
 		signIn: '/auth/login',
 		newUser: '/auth/new-account',
 	},
+
 	callbacks: {
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		authorized({ auth, request: { nextUrl } }) {
 			console.log({ auth })
 			// const isLoggedIn = !!auth?.user;
@@ -33,21 +27,22 @@ export const authConfig: NextAuthConfig = {
 		},
 
 		jwt({ token, user }) {
-			if (user) token.data = user
+			if (user) {
+				token.data = user
+			}
+
 			return token
 		},
 
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		session({ session, token, user }) {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			session.user = token.data as any
 			return session
 		},
 	},
+
 	providers: [
 		Credentials({
 			async authorize(credentials) {
-				console.log('[authConfig]: Credentials')
 				const parsedCredentials = z
 					.object({ email: z.string().email(), password: z.string().min(6) })
 					.safeParse(credentials)
@@ -66,10 +61,8 @@ export const authConfig: NextAuthConfig = {
 				if (!bcryptjs.compareSync(password, user.password)) return null
 
 				// Regresar el usuario sin el password
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				const { password: _, ...rest } = user
 
-				console.log({ email, password, rest })
 				return rest
 			},
 		}),

@@ -1,68 +1,69 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
+import { useState } from "react";
 
-import { QuantitySelector, SizeSelector } from '@/components'
-import type { CartProduct, Product, Size } from '@/interfaces'
-import { useCartStore } from '@/store'
+import { QuantitySelector, SizeSelector } from "@/components";
+import type { CartProduct, Product, Size } from "@/interfaces";
+import { useCartStore } from '@/store';
 
 interface Props {
-	product: Product
+  product: Product;
 }
 
 export const AddToCart = ({ product }: Props) => {
-	const addProductToCart = useCartStore((state) => state.addProductTocart)
 
-	const [selectedSize, setSelectedSize] = useState<Size | undefined>()
-	const [selectedQuantity, setSelectedQuantity] = useState<number>(1)
-	const [wasSubmited, setWasSubmited] = useState(false)
+  const addProductToCart = useCartStore( state => state.addProductTocart );
 
-	const addToCart = () => {
-		setWasSubmited(true)
+  const [size, setSize] = useState<Size | undefined>();
+  const [quantity, setQuantity] = useState<number>(1);
+  const [posted, setPosted] = useState(false);
 
-		if (!selectedSize) return
+  const addToCart = () => {
+    setPosted(true);
 
-		const cartProduct: CartProduct = {
-			id: product.id,
-			slug: product.slug,
-			title: product.title,
-			price: product.price,
-			image: product.images[0],
-			quantity: selectedQuantity,
-			size: selectedSize,
-		}
+    if (!size) return;
 
-		addProductToCart(cartProduct)
-		setWasSubmited(false)
-		setSelectedQuantity(1)
-		setSelectedSize(undefined)
-	}
+    const cartProduct: CartProduct = {
+      id: product.id,
+      slug: product.slug,
+      title: product.title,
+      price: product.price,
+      quantity: quantity,
+      size: size,
+      image: product.images[0]
+    }
 
-	return (
-		<>
-			{wasSubmited && !selectedSize && (
-				<span className="fade-in mt-2 text-red-500">
-					Must be a size selected*
-				</span>
-			)}
+    addProductToCart(cartProduct);
+    setPosted(false);
+    setQuantity(1);
+    setSize(undefined);
 
-			{/* Selector de Tallas */}
-			<SizeSelector
-				selectedSize={selectedSize}
-				availableSizes={product.sizes}
-				onSizeChanged={setSelectedSize}
-			/>
 
-			{/* Selector de Cantidad */}
-			<QuantitySelector
-				quantity={selectedQuantity}
-				onQuantityChanged={setSelectedQuantity}
-			/>
+  };
 
-			{/* Button */}
-			<button onClick={addToCart} className="btn-primary my-5">
-				Add to cart
-			</button>
-		</>
-	)
-}
+
+  return (
+    <>
+      {posted && !size && (
+        <span className="mt-2 text-red-500 fade-in">
+          Debe de seleccionar una talla*
+        </span>
+      )}
+
+      {/* Selector de Tallas */}
+      <SizeSelector
+        selectedSize={size}
+        availableSizes={product.sizes}
+        onSizeChanged={setSize}
+      />
+
+      {/* Selector de Cantidad */}
+      <QuantitySelector quantity={quantity} onQuantityChanged={setQuantity} />
+
+      {/* Button */}
+      <button onClick={addToCart} className="btn-primary my-5">
+        Agregar al carrito
+      </button>
+    </>
+  );
+};
