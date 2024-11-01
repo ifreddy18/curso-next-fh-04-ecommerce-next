@@ -7,8 +7,6 @@ import { currencyFormat } from '@/utils'
 import Image from 'next/image'
 
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
-import { IoCardOutline } from 'react-icons/io5'
 
 interface Props {
 	searchParams: {
