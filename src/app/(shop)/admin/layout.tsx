@@ -6,9 +6,13 @@ export default async function AdminLayout({
 }: {
 	children: React.ReactNode
 }) {
-	const session = await auth().catch()
+	try {
+		const session = await auth()
 
-	if (session?.user.role !== 'admin') {
+		if (session?.user.role !== 'admin') {
+			redirect('/login')
+		}
+	} catch (error) {
 		redirect('/login')
 	}
 
