@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { IoCartOutline } from 'react-icons/io5'
 
-export default function () {
+export default function EmptyPage() {
 	return (
 		<div className="flex h-[800px] items-center justify-center">
 			<IoCartOutline size={80} className="mx-5" />

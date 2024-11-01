@@ -17,6 +17,7 @@ export const authConfig: NextAuthConfig = {
 		newUser: '/auth/new-account',
 	},
 	callbacks: {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		authorized({ auth, request: { nextUrl } }) {
 			console.log({ auth })
 			// const isLoggedIn = !!auth?.user;
@@ -36,7 +37,9 @@ export const authConfig: NextAuthConfig = {
 			return token
 		},
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		session({ session, token, user }) {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			session.user = token.data as any
 			return session
 		},
@@ -63,6 +66,7 @@ export const authConfig: NextAuthConfig = {
 				if (!bcryptjs.compareSync(password, user.password)) return null
 
 				// Regresar el usuario sin el password
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				const { password: _, ...rest } = user
 
 				console.log({ email, password, rest })

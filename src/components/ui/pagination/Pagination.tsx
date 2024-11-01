@@ -27,11 +27,11 @@ export const Pagination = ({ totalPages }: Props) => {
 		const params = new URLSearchParams(searchParams)
 
 		if (
-      //? click in ...
-      pageNumber === '...' ||
-      //? Click in previous when page is 1 OR click in next when page is the last
-      +pageNumber > totalPages
-    ) {
+			//? click in ...
+			pageNumber === '...' ||
+			//? Click in previous when page is 1 OR click in next when page is the last
+			+pageNumber > totalPages
+		) {
 			//? Return to same page
 			return `${pathname}?${params.toString()}`
 		}
@@ -41,13 +41,13 @@ export const Pagination = ({ totalPages }: Props) => {
 			return `${pathname}`
 		}
 
-    //? 2,3,4, etc...
+		//? 2,3,4, etc...
 		params.set('page', pageNumber.toString())
 		return `${pathname}?${params.toString()}`
 	}
 
-  const previousPage = (): string => createPageUrl(currentPage - 1)
-  const nextPage = (): string => createPageUrl(currentPage + 1)
+	const previousPage = (): string => createPageUrl(currentPage - 1)
+	const nextPage = (): string => createPageUrl(currentPage + 1)
 
 	return (
 		<div className="mb-32 mt-10 flex justify-center text-center">
@@ -62,7 +62,7 @@ export const Pagination = ({ totalPages }: Props) => {
 						</Link>
 					</li>
 
-					{allPages.map((page, index) => (
+					{allPages.map((page) => (
 						<li key={page} className="page-item">
 							<Link
 								className={clsx(

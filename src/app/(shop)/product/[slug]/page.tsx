@@ -46,7 +46,7 @@ export async function generateMetadata(
 	}
 }
 
-export default async function ({ params }: Props) {
+export default async function ProductSlugPage({ params }: Props) {
 	const { slug } = params
 	// const product = initialData.products.find((product) => product.slug === slug)
 	const product = await getProductBySlug(slug)
@@ -81,7 +81,7 @@ export default async function ({ params }: Props) {
 				</h1>
 				<p className="mb-5 text-lg">{product.price}</p>
 
-				<AddToCart product={product}/>
+				<AddToCart product={product} />
 
 				{/* Descripción */}
 				<h3 className="text-sm font-bold">Description</h3>

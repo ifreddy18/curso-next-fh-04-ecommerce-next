@@ -145,6 +145,7 @@ export const placeOrder = async (
 			order: prismaTx.order,
 			prismaTx: prismaTx,
 		}
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
 		console.log({ error })
 		return {

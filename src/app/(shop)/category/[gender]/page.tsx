@@ -25,7 +25,7 @@ interface Props {
 	}
 }
 
-export default async function ({ params, searchParams }: Props) {
+export default async function GenderPage({ params, searchParams }: Props) {
 	const { gender } = params
 
 	const page = searchParams.page ? parseInt(searchParams.page) : 1

@@ -1,5 +1,5 @@
-import { PageNotFound } from "@/components/ui"
+import { PageNotFound } from '@/components/ui'
 
-export default function () {
+export default function ProductNotFound() {
 	return <PageNotFound />
 }

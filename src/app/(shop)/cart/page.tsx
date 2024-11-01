@@ -15,7 +15,7 @@ import { OrderSummary } from './ui/OrderSummary'
 // 	initialData.products[2],
 // ]
 
-export default function () {
+export default function CartPage() {
 	// TODO: when cart is empty
 	// redirect('/empty');
 
