@@ -17,6 +17,7 @@ import {
 } from 'react-icons/io5'
 
 import { useUIStore } from '@/store'
+import { logout } from '@/actions/auth/logout'
 
 export const Sidebar = () => {
 	const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen)
@@ -25,11 +26,6 @@ export const Sidebar = () => {
 	const { data: session } = useSession()
 	const isAuthenticated = !!session?.user
 	const isAdmin = session?.user.role === 'admin'
-
-	const logout = async () => {
-		await logoutAction()
-		window.location.replace('/')
-	}
 
 	return (
 		<div>
